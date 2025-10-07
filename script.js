@@ -11,12 +11,6 @@ const submitButton = document.getElementById('submit');
 const startButton = document.getElementById('startButton');
 
 
-userInput.addEventListener("keypress", (b) => {
- if(!/[0-9]/.test(b.key)){
-   b.preventDefault();
-   text1.innerHTML = "INVALID INPUT";
- }
-})
 
 
 
@@ -40,9 +34,18 @@ startButton.addEventListener("click", () => {
 
 
 submitButton.addEventListener('click', () => {
-   let guessInput = userInput.value.trim();
-   if (userTrial < MAX_TRIAL) {
-      if ( guessInput !== " " && guessInput == RANDOM_GUESS) {
+   const guessInput = userInput.value.trim();
+   console.log(typeof(guessInput));
+
+   if(guessInput === ""){
+      const winningText = document.getElementById("text3").innerHTML = "Please, enter a number before submitting!!";
+      return;
+   }
+
+
+   if ( userTrial < MAX_TRIAL) {
+      const guessValue = Number(guessInput)
+      if (  guessValue == RANDOM_GUESS) {
          userWon = true;
 
          startButton.style.display = "inline-block";
@@ -54,18 +57,18 @@ submitButton.addEventListener('click', () => {
          const displayText1 = document.getElementById("text1").innerHTML = " ";
          const displayText2 = document.getElementById('text2').innerHTML = " ";
          const winningText = document.getElementById("text3").innerHTML = "Congratulation!!! You guessed right.";
-         userInput.value = ' ';
+         userInput.value = '';
          userTrial = 0;
-      } else if (guessInput !== " " && guessInput < RANDOM_GUESS) {
+      } else if (guessInput < RANDOM_GUESS) {
          userTrial += 1;
          const displayText2 = document.getElementById('text2').innerHTML = `Number of Trial: ${userTrial}`;
          const winningText = document.getElementById("text3").innerHTML = "TOO LOW!! PLEASE TRY AGAIN";
-         userInput.value = ' ';
+         userInput.value = '';
       } else {
          userTrial += 1;
          const displayText2 = document.getElementById('text2').innerHTML = `Number of Trial: ${userTrial}`;
          const winningText = document.getElementById("text3").innerHTML = "TOO HIGH!! PLEASE TRY AGAIN"
-         userInput.value = ' ';
+         userInput.value = '';
       }
 
    }
@@ -78,6 +81,7 @@ submitButton.addEventListener('click', () => {
       submitButton.style.display = 'none';
       userInput.style.display = 'none';
       userTrial = 0;
+      startButton.innerText = "PLAY AGAIN";
    }
 
 
